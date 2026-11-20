@@ -1,0 +1,11 @@
+{
+  "name": "ai-archaeologist",
+  "displayName": "AI Archaeologist",
+  "version": "0.1.0",
+  "description": "Rebuild a departed developer's project knowledge: a connected project handbook, evidence-backed answers about any codebase (impact, flows, why code exists, auth and tenant gaps, dead code), and the important git history.",
+  "author": {
+    "name": "AnkitaVekariya"
+  },
+  "repository": "https://github.com/AnkitaVekariya/AI-Archaeologist",
+  "keywords": ["onboarding", "knowledge-transfer", "legacy-code", "documentation", "impact-analysis", "git-history", "code-archaeology"]
+}

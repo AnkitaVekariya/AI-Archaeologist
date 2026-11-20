@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: impact-delete-invoice-service
+expected_outcome: |
+  Rates the impact high, lists the importing files (including reports.service.ts through the invoice
+  barrel), the affected endpoints, the hidden coupling with schema.prisma, and advises against
+  deleting without replacing dependencies.
+context:
+  scaffold_script: make-fixture.sh

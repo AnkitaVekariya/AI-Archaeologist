@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: trace-login-click
+expected_outcome: |
+  A numbered trace from Login.tsx handleLogin through api.post('/auth/login') with baseURL /api to
+  POST /api/auth/login, AuthController.login, AuthService.login, prisma.user.findUnique, bcrypt
+  compare and a JWT signed with JWT_SECRET.
+context:
+  scaffold_script: make-fixture.sh

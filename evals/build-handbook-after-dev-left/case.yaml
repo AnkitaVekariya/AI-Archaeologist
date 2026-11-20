@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: build-handbook-after-dev-left
+expected_outcome: |
+  A connected handbook in docs/project-brain/ (README index, architecture, module pages, flow pages,
+  data model, config, history with decisions and knowledge at risk, risks) whose code references and
+  links all verify.
+context:
+  scaffold_script: make-fixture.sh

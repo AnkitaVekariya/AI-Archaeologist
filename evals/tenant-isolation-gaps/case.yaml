@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: tenant-isolation-gaps
+expected_outcome: |
+  Identifies TenantGuard and where it is applied, flags the reports revenue route as missing it (and
+  its aggregate query without a tenantId filter), and treats login and the signed Stripe webhook as
+  intentionally unguarded.
+context:
+  scaffold_script: make-fixture.sh

@@ -1,0 +1,14 @@
+{
+  "name": "ai-archaeologist",
+  "description": "AI Archaeologist: understand any unknown codebase end to end, with evidence.",
+  "owner": {
+    "name": "AnkitaVekariya"
+  },
+  "plugins": [
+    {
+      "name": "ai-archaeologist",
+      "source": "./",
+      "description": "Rebuild a departed developer's project knowledge: a connected project handbook, evidence-backed answers about any codebase, and the important git history."
+    }
+  ]
+}

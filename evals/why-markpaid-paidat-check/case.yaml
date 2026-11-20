@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: why-markpaid-paidat-check
+expected_outcome: |
+  Cites the commit 'fix: prevent double payment on webhook retry (#42)', explains that Stripe webhook
+  retries made reconcile run twice and create duplicate entries, and advises keeping the check
+  (idempotency).
+context:
+  scaffold_script: make-fixture.sh
