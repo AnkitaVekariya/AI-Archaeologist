@@ -192,12 +192,12 @@ def cmd_impact(repo, a):
         hidden = [p for p in co['partners'] if p['coupling'] >= 0.5 and p['file'] not in linked]
     stem = posixpath.splitext(posixpath.basename(f))[0]
     needle = stem if stem not in ('index', 'main', '__init__', 'mod', 'utils', 'types') else posixpath.splitext(f)[0]
-    noncode = []
+    noncode = Counter()
     if repo.is_git:
         for line in codemap.git(repo.root, 'grep', '--untracked', '-n', '-I', '-F', '-e', needle, '--', '.').splitlines()[:400]:
             path = line.split(':', 1)[0]
             if path != f and path not in repo.codeset:
-                noncode.append(':'.join(line.split(':', 2)[:2]))
+                noncode[path] += 1
     features = Counter(module_of(x) for x in dist if not is_test(x))
     score, tier = impact_score(len(direct), len(trans), len(routes), bool(tests), len(hidden))
     reasons = ['%d direct importer%s' % (len(direct), '' if len(direct) == 1 else 's'),
@@ -219,7 +219,7 @@ def cmd_impact(repo, a):
             'transitive': sorted(trans), 'features': [m for m, _ in features.most_common()],
             'routes': [{'route': '%s %s' % (r['method'], r['path']), 'at': '%s:%d' % (r['file'], r['line']),
                         'callers': ['%s:%d' % (c['file'], c['line']) for c in r['callers']]} for r in routes],
-            'tests': tests, 'cochange': co['partners'][:8], 'hidden_coupling': hidden, 'noncode_refs': noncode[:20],
+            'tests': tests, 'cochange': co['partners'][:8], 'hidden_coupling': hidden, 'noncode_refs': ['%s (%d)' % kv for kv in noncode.most_common(20)],
             'owners': owners[:5], 'recommendation': rec}
 
 
@@ -415,7 +415,8 @@ def render_impact(r, limit):
         hidden = {h['file'] for h in r['hidden_coupling']}
         for p in r['cochange']:
             out.append('  %-60s %d commits (%d%%)%s' % (p['file'], p['together'], p['coupling'] * 100, '  HIDDEN: no import link' if p['file'] in hidden else ''))
-    out.append('Non-code references: ' + (', '.join(r['noncode_refs']) or 'none'))
+    refs = r['noncode_refs']
+    out.append('Mentioned in non-code files: ' + (', '.join(refs[:5]) + (' +%d more' % (len(refs) - 5) if len(refs) > 5 else '') if refs else 'none'))
     if r['owners']:
         out.append('Owners: ' + ', '.join('%s (%d commit%s, last touched it %s%s)' % (
             o['name'], o['commits'], '' if o['commits'] == 1 else 's', o['last'], '' if o['active'] else ', now inactive') for o in r['owners']))

@@ -695,6 +695,9 @@ def git(dest, *args, env=None):
 
 
 def build(dest):
+    if os.path.isdir(dest) and os.listdir(dest):
+        # Replaying the history on top of an existing copy corrupts it (and stops halfway at an empty commit).
+        sys.exit('%s already exists and is not empty. Pick a new folder, or move the old one away first.' % dest)
     os.makedirs(dest, exist_ok=True)
     git(dest, "init", "-q", "-b", "main")
     for date, who, message, files in commits():
